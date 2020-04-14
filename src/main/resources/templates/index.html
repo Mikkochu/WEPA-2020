@@ -11,12 +11,20 @@
 
 
         
-        
+      
 <ul>
     <li th:each="skill : ${skills}">
-        <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span>
+        <form th:action="@{/}" method="POST">
+            <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+            <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
+        </form>    
     </li>
 </ul>
+
+
+        
+      
+
         
         
             

@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Skill extends AbstractPersistable<Long>{
     private String name;
     private Integer likes;
+    // Tahan joku lista jossa nakyy ketka on tykannyt. Jos on listassa niin ei saa tykata uudestaan
     
     
 }

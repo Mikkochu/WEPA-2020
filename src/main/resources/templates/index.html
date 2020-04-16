@@ -9,7 +9,7 @@
     </head>
     <body>
 
-
+<!-- korosta taidoista top kolme-->
         
       
 <ul>
@@ -20,8 +20,19 @@
         </form>    
     </li>
 </ul>
+<br>
+    
+<h1>HUGO</h1>
+
+<img th:src="@{/gifs/{id}/content(id=${picture})}" height="200" width="150"/>
+<br>
 
 
+
+<form th:action="@{/picture}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" value="Send!"/>
+</form>
         
       
 

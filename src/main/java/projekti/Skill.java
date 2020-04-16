@@ -17,4 +17,5 @@ public class Skill extends AbstractPersistable<Long>{
     // Tahan joku lista jossa nakyy ketka on tykannyt. Jos on listassa niin ei saa tykata uudestaan
     
     
+    
 }

@@ -32,13 +32,15 @@ public class MainPageController {
     @Autowired
     SkillRepository skillRepository;
     @Autowired
-    FileManagerRepository fileManagerRepository;
+    AccountRepository accountRepository;
     
     @GetMapping("/")
     public String home(Model model) {
+        Account account = accountRepository.getOne(1L);
         Pageable pageable = PageRequest.of(0, 10, Sort.by("likes").descending());
         model.addAttribute("skills", skillRepository.findAll(pageable));
         model.addAttribute("picture", 1);
+        model.addAttribute("username", account.getName());
         return "index";
     }
     
@@ -60,12 +62,9 @@ public class MainPageController {
     
     @PostMapping("/picture")
     public String save(@RequestParam("file") MultipartFile file) throws IOException {
-	FileManager fm = new FileManager();
-        fm.setName(file.getOriginalFilename());
-        fm.setContentType(file.getContentType());
-        fm.setContentLength(file.getSize());
-        fm.setProfilePicture(file.getBytes());
-	fileManagerRepository.save(fm);
+         Account account = accountRepository.getOne(1L);
+        account.setProfilePicture(file.getBytes());
+	accountRepository.save(account);
 	
 	return "redirect:/";
     }
@@ -73,8 +72,8 @@ public class MainPageController {
     @GetMapping(path ="/gifs/{id}/content", produces = "image/jpg")
     @ResponseBody
     public byte[] content( @PathVariable Long id){
-        System.out.println(id);
-        return fileManagerRepository.getOne(id).getProfilePicture();
+        //System.out.println(id);
+        return accountRepository.getOne(id).getProfilePicture();
 
     }   
     

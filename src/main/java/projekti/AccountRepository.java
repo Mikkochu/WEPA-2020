@@ -4,6 +4,6 @@ package projekti;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface FileManagerRepository extends JpaRepository<FileManager, Long>{
+public interface AccountRepository extends JpaRepository<Account, Long> {
     
 }

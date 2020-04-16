@@ -9,22 +9,10 @@
     </head>
     <body>
 
-<!-- korosta taidoista top kolme-->
-        
-      
-<ul>
-    <li th:each="skill : ${skills}">
-        <form th:action="@{/}" method="POST">
-            <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
-            <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
-        </form>    
-    </li>
-</ul>
-<br>
     
-<h1>HUGO</h1>
-
+<h1 th:text="${username}">USERNAME PLACEHOLDER</h1>
 <img th:src="@{/gifs/{id}/content(id=${picture})}" height="200" width="150"/>
+<br>
 <br>
 
 
@@ -34,11 +22,22 @@
     <input type="submit" value="Send!"/>
 </form>
         
-      
+  <br>
+  <br>
 
-        
-        
-            
+ <!-- SKILLS-->
+ <!-- korosta taidoista top kolme-->      
+<h1 >SKILLS</h1>  
+<ul>
+    <li th:each="skill : ${skills}">
+        <form th:action="@{/}" method="POST">
+            <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+            <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
+        </form>    
+    </li>
+</ul>
+<br>
+
 <form th:action="@{/skill}" method="POST">
 	<p>Add Skill: <input type="text" name="name"></input></p>
 	<input type="submit" value="Add"></input>

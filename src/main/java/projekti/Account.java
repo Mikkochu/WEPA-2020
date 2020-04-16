@@ -1,6 +1,8 @@
 
 package projekti;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,23 +10,20 @@ import javax.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FileManager extends AbstractPersistable<Long> {
+public class Account extends AbstractPersistable<Long>{
     private String name;
-    private String contentType;
-    private Long contentLength;
+    //private List<Skill> skills = new ArrayList<>();
+    // Mieti miten saadaan taidot per henkilo
+    
     
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] profilePicture;
-    
-     // LISAA TAMA MYOHEMMIN HEROKUA VARTEN //@Type(type = "org.hibernate.type.BinaryType")
-    
+
 }

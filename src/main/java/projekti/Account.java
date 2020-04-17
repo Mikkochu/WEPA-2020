@@ -18,6 +18,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Data
 public class Account extends AbstractPersistable<Long>{
     private String name;
+    private String username;
+    private String password;
+    
     //private List<Skill> skills = new ArrayList<>();
     // Mieti miten saadaan taidot per henkilo
     

@@ -31,6 +31,7 @@ public class MainPageController {
     
     @Autowired
     SkillRepository skillRepository;
+    
     @Autowired
     AccountRepository accountRepository;
     

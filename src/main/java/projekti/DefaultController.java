@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DefaultController {
 
     @GetMapping("*")
-    public String helloWorld(Model model) {
-        model.addAttribute("message", "World!");
-        return "index";
+    public String handleDefault() {
+        return "redirect:/login";
     }
 }

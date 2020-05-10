@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8"/>
+        <title>Layout</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+
+        <!-- NAVBAR -->
+        <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users">Users</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+
+
+
+        <!-- USER CARD -->
+        <div th:fragment="userCard(name)" class="card" style="width: 15rem;">
+            <img th:src="@{/gifs/{id}/content(id=${picture})}" class="card-img-top" alt="Card image cap">
+                <div class="card-body">
+                    <h5 th:text="${name}" class="card-title">Nyymi Nyyminen</h5>
+                    <p th:text="${title}" class="card-text">TITTELI</p>
+                    <a href="#" class="btn btn-info">Profile</a>
+                    <a href="#" class="btn btn-success">Connect</a>
+                </div>
+        </div>
+
+
+
+
+        <div th:fragment="userCards(accounts)">
+            <div th:each="account : ${accounts}" class="card" style="width: 15rem;">
+                <img th:src="@{/gifs/{id}/content(id=${account.getId()})}" class="card-img-top" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 th:text="${account.username}" class="card-title">Nyymi Nyyminen</h5>
+                        <p th:text="${account.title}" class="card-text">TITTELI</p>
+                        <a href="#" class="btn btn-info">Profile</a>
+                        <a href="#" class="btn btn-success">Connect</a>
+                    </div>
+            </div>
+        </div>   
+
+
+
+
+    </body>
+</html>

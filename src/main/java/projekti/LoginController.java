@@ -46,7 +46,6 @@ public class LoginController {
     @PostMapping("/signup") 
     public String signup(@RequestParam String name, @RequestParam String username, @RequestParam String password) {  // formparametrit otetaan vastaan requestParamina
         if (accountRepository.findByUsername(username) != null) {
-            // Tee tahan joku errorviesti jos 
             System.out.println("USERNAME RESERVED");
             return "redirect:/signup";
         }

@@ -22,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,14 +37,41 @@ public class MainPageController {
     @Autowired
     AccountRepository accountRepository;
     
+
+
+   
+    
+    @GetMapping("/users")
+    public String userPage(Model model) {
+        model.addAttribute("accounts",accountRepository.findAll());
+        return "users";
+    }
+    
     @GetMapping("/")
     public String home(Model model) {
-        Account account = accountRepository.getOne(1L);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        Account account = accountRepository.findByUsername(username);
+        
         Pageable pageable = PageRequest.of(0, 10, Sort.by("likes").descending());
         model.addAttribute("skills", skillRepository.findAll(pageable));
-        model.addAttribute("picture", 1);
-        model.addAttribute("username", account.getName());
+        model.addAttribute("username", account.getUsername());
+        model.addAttribute("name", account.getName());
+        model.addAttribute("picture", account.getId());
+        model.addAttribute("title", account.getTitle());
+
+
         return "index";
+    }
+    
+    @PostMapping("/title") 
+    public String addTitle(@RequestParam String title) {  // formit parametrit otetaan vastaan requestParamina
+            //System.out.println(name);
+            Account account = accountRepository.getOne(1L);
+            account.setTitle(title);
+            accountRepository.save(account);
+            return "redirect:/";  
     }
     
     @PostMapping("/skill") 
@@ -63,7 +92,11 @@ public class MainPageController {
     
     @PostMapping("/picture")
     public String save(@RequestParam("file") MultipartFile file) throws IOException {
-         Account account = accountRepository.getOne(1L);
+        //Account account = accountRepository.getOne(1L);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        Account account = accountRepository.findByUsername(username);
         account.setProfilePicture(file.getBytes());
 	accountRepository.save(account);
 	

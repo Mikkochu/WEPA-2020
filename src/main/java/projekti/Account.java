@@ -20,7 +20,9 @@ public class Account extends AbstractPersistable<Long>{
     private String name;
     private String username;
     private String password;
+    private String title;
     
+    //private List<Long> linkedAccountIDs;
     //private List<Skill> skills = new ArrayList<>();
     // Mieti miten saadaan taidot per henkilo
     

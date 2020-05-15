@@ -13,7 +13,25 @@
 
 <div th:replace="fragments/layout :: navbar"></div>
 
-<div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>
+    <div>
+        <h2 th:text="${username}">MY PROFILE</h2>
+        <div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>    
+    </div>
+
+    <!-- SKILLS-->
+<!-- korosta taidoista top kolme-->      
+    <div>
+        <h2 >SKILLS</h2>  
+        <ul>
+           <li th:each="skill : ${skills}">
+               <form th:action="@{/}" method="POST">
+                   <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+                   <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
+               </form>    
+           </li>
+        </ul>
+        <br>   
+    </div>
 
 
 </body>

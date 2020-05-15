@@ -10,7 +10,7 @@
 
         <!-- NAVBAR -->
         <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="/">WorkPlace</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,9 +24,9 @@
                         <a class="nav-link" href="/users">Users</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form th:action="@{/search}" method="POST" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" name=search type="search" placeholder="Search" aria-label="Search">
+                    <button type="submit" class="btn btn-outline-success my-2 my-sm-0" >Search</button>
                 </form>
             </div>
         </nav>
@@ -39,8 +39,6 @@
                 <div class="card-body">
                     <h5 th:text="${name}" class="card-title">Nyymi Nyyminen</h5>
                     <p th:text="${title}" class="card-text">TITTELI</p>
-                    <a href="#" class="btn btn-info">Profile</a>
-                    <a href="#" class="btn btn-success">Connect</a>
                 </div>
         </div>
 
@@ -53,8 +51,10 @@
                     <div class="card-body">
                         <h5 th:text="${account.username}" class="card-title">Nyymi Nyyminen</h5>
                         <p th:text="${account.title}" class="card-text">TITTELI</p>
-                        <a href="#" class="btn btn-info">Profile</a>
-                        <a href="#" class="btn btn-success">Connect</a>
+                        <form th:action="@{/connect}" method="POST">
+                        <a th:href="@{/users/{username}(username=${account.username})}" class="btn btn-info">Profile</a>
+                        <button type="submit" th:value="${account.username}" name="username" class="btn btn-success"> Connect </button>
+                        </form>
                     </div>
             </div>
         </div>   

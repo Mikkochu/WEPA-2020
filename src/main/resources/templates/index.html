@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-            <link rel="stylesheet" th:href="@{/public/style.css}"/>
+            <link rel="stylesheet" href="@{/public/style.css}"/>
             <title>Main Page</title>
 
     </head>
@@ -21,55 +21,96 @@
                 <p>The best place to meet and connect with people</p>
             </div>
         </div>
-
-
-
-        <!-- USERCARD-->
-        <div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>
-        <br>
-            <br>
-
-
-
-                <!-- PICTURE-->
-                <form th:action="@{/picture}" method="POST" enctype="multipart/form-data">
-                    <h2>Choose a profile picture</h2>
-                    <input type="file" name="file" />
-                    <input type="submit" value="Send!"/>
+    
+        
+        <div>
+          <a href="/logout">LOGOUT</a>  
+        </div>
+    
+    
+    <!-- FriendRequest -->
+    <div id="friend-request">
+        <h2>FRIEND REQUESTS</h2>           
+        <ul>
+            <li th:each="req : ${requests}">
+                <span th:text="${req.name}"></span>
+                <span th:text="${req.title}"></span>
+                <form th:action="@{/accept}" method="POST">
+                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-success btn-sm">Accept</button>                      
                 </form>
+                <form th:action="@{/decline}" method="POST">
+                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-danger btn-sm">Decline</button>   
+                </form> 
+            </li>
+        </ul>
+    </div>
+    
+    <div>
+        <h2>CONNECTIONS</h2>
+        <ul th:each="connection : ${connections}">
+            <li th:text="${connection.name}"></li>
+            <li th:text="${connection.title}"></li>
+            <form th:action="@{/remove}" method="POST">
+                <button type="submit" th:value="${connection.username}" name="username" class="btn btn-danger btn-sm">Remove</button>   
+            </form> 
+        </ul>
+    </div>
+        
+                      
+    <!-- USERCARD-->
+    <div>
+        <h2 >MY PROFILE</h2>
+        <div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>    
+    </div>
+        
 
-                <br>
-                    <br>
+    <!-- ADD PICTURE-->
+    <div>
+        <form th:action="@{/picture}" method="POST" enctype="multipart/form-data">
+            <h2>Choose a profile picture</h2>
+            <input type="file" name="file" />
+            <input type="submit" value="Send!"/>
+        </form>
+    </div>
 
-                        <!-- SKILLS-->
-                        <!-- korosta taidoista top kolme-->      
-                        <h2 >SKILLS</h2>  
-                        <ul>
-                            <li th:each="skill : ${skills}">
-                                <form th:action="@{/}" method="POST">
-                                    <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
-                                    <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
-                                </form>    
-                            </li>
-                        </ul>
-                        <br>
+<!-- SKILLS-->
+<!-- korosta taidoista top kolme-->      
+    <div>
+        <h2 >SKILLS</h2>  
+        <ul>
+           <li th:each="skill : ${skills}">
+                   <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+           </li>
+        </ul>
+        <br>   
+    </div>
 
-                            <form th:action="@{/skill}" method="POST">
-                                <p>Add Skill: <input type="text" name="name"></input></p>
-                                <input type="submit" value="Add"></input>
-                            </form>
+ 
 
-                            <br>
-                                <br>
-                                    <!-- TITLE-->
-                                    <form th:action="@{/title}" method="POST">
-                                        <p>Add Title <input type="text" name="title"></input></p>
-                                        <input type="submit" value="Add"></input>
-                                    </form> 
+   
+    <div>
+        <form th:action="@{/skill}" method="POST">
+            <p>Add Skill: <input type="text" name="name"></input></p>
+            <input type="submit" value="Add"></input>
+        </form>
+    </div>
+
+    <!-- TITLE-->
+    <div>
+        <h2 >Title</h2>  
+        <form th:action="@{/title}" method="POST">
+            <p>Add Title <input type="text" name="title"></input></p>
+            <input type="submit" value="Add"></input>
+        </form>                 
+    </div>
 
 
-                                    </body>
-                                    </html>
+
+                                    
+
+
+</body>
+</html>
 
 
 

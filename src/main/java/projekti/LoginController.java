@@ -41,7 +41,6 @@ public class LoginController {
         return "signup";
     }
     
-
    
     @PostMapping("/signup") 
     public String signup(@RequestParam String name, @RequestParam String username, @RequestParam String password) {  // formparametrit otetaan vastaan requestParamina
@@ -56,6 +55,11 @@ public class LoginController {
         a.setPassword(passwordEncoder.encode(password));
         accountRepository.save(a);
         return "redirect:/login";  
+    }
+    
+    @GetMapping("/logout")
+    public String logout(){
+         return "redirect:/login";  
     }
     
     

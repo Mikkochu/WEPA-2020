@@ -2,6 +2,8 @@
 package projekti;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,10 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Skill extends AbstractPersistable<Long>{
     private String name;
     private Integer likes;
-    // Tahan joku lista jossa nakyy ketka on tykannyt. Jos on listassa niin ei saa tykata uudestaan
+    
+    @ManyToOne
+    private Account account;
+
     
     
     

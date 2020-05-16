@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Account extends AbstractPersistable<Long>{
     private String password;
     private String title;
     
-    @ManyToMany
+    @OneToMany(mappedBy = "account")
     private List<Skill> skills = new ArrayList<>();
         
     @ManyToMany

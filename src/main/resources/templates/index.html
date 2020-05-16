@@ -103,7 +103,18 @@
             <input type="submit" value="Add"></input>
         </form>                 
     </div>
-
+    
+    <br>
+    <br>
+        
+    <!-- MESSAGE-->
+    <h2>POST HERE</h2>
+    <div>
+        <form th:action="@{/messages}" method="POST">
+            <textarea type="text" rows="4" cols="50" name="message"></textarea>
+            <button type="submit" class="btn btn-success"> Submit </button>
+        </form>    
+    </div>
 
 
                                     

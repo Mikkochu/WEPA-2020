@@ -23,9 +23,15 @@
     <div>
         <h2 >SKILLS</h2>  
         <ul>
+           <li th:each="skill : ${topskills}">
+               <form th:action="@{/likes}" method="POST">
+                   <span th:text="${skill.name}" class = "font-weight-bold">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+                   <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
+               </form>    
+           </li>
            <li th:each="skill : ${skills}">
-               <form th:action="@{/}" method="POST">
-                   <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
+               <form th:action="@{/likes}" method="POST">
+                   <span th:text="${skill.name}" >Skills</span> <span th:text="${skill.likes}">Likes</span> 
                    <button name="id" type="submit" th:value="${skill.id}">LIKE!</button>
                </form>    
            </li>

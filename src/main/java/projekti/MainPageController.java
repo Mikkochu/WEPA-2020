@@ -41,13 +41,34 @@ public class MainPageController {
     public Account currentAccount() {
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String username = user.getUsername(); 
-
             return accountRepository.findByUsername(username);
     }
     
+    @GetMapping("/messages")
+    public String message(Model model) {
+        Account account= currentAccount();
+        
+
+        return "/message";
+    }
+    
+    @PostMapping("/messages") 
+    public String addMessage(@RequestParam String message) {  // 
+        Account account= currentAccount();
+        System.out.println("HÖPÖ");
+
+        return "redirect:/";  
+    }
+    
+    
+    
+    
     @GetMapping("/users")
     public String allUsers(Model model) {
-        model.addAttribute("accounts",accountRepository.findAll());
+        Account account= currentAccount();
+        List<Account> allAccounts = accountRepository.findAll();
+        model.addAttribute("accounts",allAccounts);
+
         return "users";
     }
     
@@ -59,30 +80,69 @@ public class MainPageController {
         model.addAttribute("picture", profileAccount.getId());
         model.addAttribute("title", profileAccount.getTitle());
         
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("likes").descending());
-        model.addAttribute("skills", skillRepository.findAll(pageable));
+        Pageable top_pageable = PageRequest.of(0, 3, Sort.by("likes").descending());
+        Pageable pageableAll = PageRequest.of(0, 15, Sort.by("likes").descending());
         
+        List<Skill> topSkills = skillRepository.findByAccount(profileAccount,top_pageable);
+        List<Skill> allMySkills = skillRepository.findByAccount(profileAccount,pageableAll);
+        
+        allMySkills.removeIf( skill -> topSkills.contains(skill));
+        
+        model.addAttribute("topskills", topSkills);
+        model.addAttribute("skills", allMySkills);
         return "user";
     }
     
     @GetMapping("/")
     public String home(Model model) {
         Account account= currentAccount();
-
+        
         Pageable pageable = PageRequest.of(0, 10, Sort.by("likes").descending());
-        model.addAttribute("skills", skillRepository.findAll(pageable));
+        
+        model.addAttribute("skills", account.getSkills());
         model.addAttribute("username", account.getUsername());
         model.addAttribute("name", account.getName());
         model.addAttribute("picture", account.getId());
         model.addAttribute("title", account.getTitle());
         model.addAttribute("requests", account.getReceivedInvites());
         model.addAttribute("connections", account.getConnections());
-        
-        System.out.println(account.getSkills());
-        
-
+           
         return "index";
     }
+    
+    @PostMapping("/skill") 
+    public String addSkill(@RequestParam String name) { 
+        Account account= currentAccount();
+        List<Skill> mySkills = account.getSkills();
+        
+        Skill existingSkill = skillRepository.findByAccountAndName(account, name);
+        
+        if(!(existingSkill == null)){
+            return "redirect:/";  
+        }
+        
+        Skill newSkill = new Skill(name, 1, account);
+        skillRepository.save(newSkill);
+        return "redirect:/";  
+    }
+    
+    @PostMapping("/likes") 
+    public String incrementLikes(@RequestParam Long id) {
+        Account owner= currentAccount();
+       
+        Skill skillToLike = skillRepository.getOne(id);
+        Account account = skillToLike.getAccount();
+        
+        if (account.equals(owner)){
+            return "redirect:/users/" + account.getUsername(); 
+        }
+        
+        skillToLike.setLikes(skillToLike.getLikes()+1);
+        skillRepository.save(skillToLike);
+
+        return "redirect:/users/" + account.getUsername();  
+    }
+    
     
     @PostMapping("/search") 
     public String search(@RequestParam String search) {  
@@ -102,7 +162,9 @@ public class MainPageController {
             Account myAccount= currentAccount();
             Account otherAccount = accountRepository.findByUsername(username);
             
-            // tarkistus ollaanko jo kavereita
+            if(myAccount.getConnections().contains(otherAccount)){
+                return "redirect:/";  
+            }  
             
             List<Account> connections = myAccount.getConnections();
             connections.add(otherAccount);
@@ -144,8 +206,9 @@ public class MainPageController {
             
             return "redirect:/";  
     }
+    
     @PostMapping("/remove")   
-    public String remove(@RequestParam String username) {  
+    public String removeUser(@RequestParam String username) {  
             Account myAccount= currentAccount();
             Account otherAccount = accountRepository.findByUsername(username);
             
@@ -164,13 +227,14 @@ public class MainPageController {
     }
     
     
-    
     @PostMapping("/connect") 
     public String connect(@RequestParam String username) {  
             Account myAccount= currentAccount();
             Account otherAccount = accountRepository.findByUsername(username);
             
-               // Tarkista ollaanko jo kavereita
+            if(myAccount.getConnections().contains(otherAccount)){
+                return "redirect:/users";  
+            }   
             
             List<Account> sent = myAccount.getSentInvites();
             sent.add(otherAccount);
@@ -193,24 +257,8 @@ public class MainPageController {
             return "redirect:/";  
     }
     
-    @PostMapping("/skill") 
-    public String addSkill(@RequestParam String name) {  // formit parametrit otetaan vastaan requestParamina
-            Account account= currentAccount();
-           // List<Skill> skills = account.getSkills();
-           //skills.add(arg0)
-            skillRepository.save(new Skill(name, 1)); 
-            return "redirect:/";  
-    }
     
-    @PostMapping("/") 
-    public String incrementLikes(@RequestParam Long id) {  // formit parametrit otetaan vastaan requestParamina
-            //System.out.println(id);
-            Skill skill = skillRepository.getOne(id);
-            skill.setLikes(skill.getLikes()+1);
-            skillRepository.save(skill); 
-            return "redirect:/";  
-    }
-    
+    // CHOOSE PICTURE
     @PostMapping("/picture")
     public String save(@RequestParam("file") MultipartFile file) throws IOException {
         Account account= currentAccount();

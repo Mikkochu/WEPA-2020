@@ -1,6 +1,7 @@
 
 package projekti;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -13,12 +14,14 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Skill extends AbstractPersistable<Long>{
-    private String name;
-    private Integer likes;
+public class PostLike extends AbstractPersistable<Long>{
     
     @ManyToOne
     private Account account;
+    
+    @ManyToOne
+    private Post post;
 
+    
     
 }

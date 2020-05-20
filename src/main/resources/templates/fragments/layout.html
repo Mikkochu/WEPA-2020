@@ -24,7 +24,7 @@
                         <a class="nav-link" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/messages">Wall</a>
+                        <a class="nav-link" href="/posts">Posts</a>
                     </li>
                 </ul>
                 <form th:action="@{/search}" method="POST" class="form-inline my-2 my-lg-0">
@@ -45,9 +45,6 @@
                     <a th:href="@{/users/{username}(username=${username})}" class="btn btn-info">Profile</a>
                 </div>
         </div>
-
-
-
 
         <div th:fragment="userCards(accounts)">
             <div th:each="account : ${accounts}" class="card" style="width: 15rem;">

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Users</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    
+    <body>
+        <div>
+          <a href="/logout">LOGOUT</a>  
+        </div>
+        
+        <div th:replace="fragments/layout :: navbar"></div>
+        
+        <!-- MESSAGE-->
+        <h2>POST HERE</h2>
+        <div>
+            <form th:action="@{/posts}" method="POST">
+                <textarea type="text" rows="4" cols="50" name="message"></textarea>
+                <button type="submit" class="btn btn-success"> Submit </button>
+            </form>    
+        </div>
+        
+
+        
+        
+        <div>
+            <h2>All posts</h2>
+            <ul>
+                <li th:each="post: ${posts}">      
+                    <span th:text="${post.getAccount().getUsername()}">CREATED BY</span>
+                    <span th:text="${post.text}">POST TEXT</span>
+                    <span th:text="${post.postDate}">POST TIME</span>
+                    <span th:text="${post.getLikes().size()}">POST LIKE COUNT</span>
+                    <form th:action="@{/postLikes}" method="POST">
+                    <button  name="id" type="submit" th:value="${post.id}">LIKE!</button>
+                    </form>
+                    <br>
+                    <!-- COMMENT-->
+                    <p>COMMENT HERE</p>
+                    <div>
+                        <form th:action="@{/comments}" method="POST">
+                            <textarea type="text" rows="2" cols="10" th:name="commentText"></textarea>
+                            <button type="submit" th:value="${post.id}" name="postId" class="btn btn-success"> Submit </button>
+                        </form>    
+                    </div>
+                    <li th:each="comment: ${comments}">
+                        <p th:text="${comment.text}"></p>
+                    </li>
+                    
+                </li>
+                
+            </ul>
+
+        </div>
+        
+
+    </body>
+</html>

@@ -176,7 +176,7 @@ public class MainPageController {
             return "redirect:/";
         }
 
-        Skill newSkill = new Skill(name, 1, account);
+        Skill newSkill = new Skill(name, 0, account);
         skillRepository.save(newSkill);
         return "redirect:/";
     }

@@ -3,8 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-            <link rel="stylesheet" href="@{/public/style.css}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
             <title>Main Page</title>
 
     </head>
@@ -23,90 +25,175 @@
         </div>
     
         
-        <div>
-          <a href="/logout">LOGOUT</a>  
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <!-- USERCARD-->
+                    <div>
+                        <h2 class="font-weight-normal" >MY PROFILE</h2>
+                        <div th:replace="fragments/layout :: userCard(name=${name},title=${title},picture=${picture})"></div>
+                    </div>
+                </div>
+                
+                <div class="col-1 pt-5 pl-0">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pictureModal">
+                      Add Picture
+                    </button>
+                </div>
+                <div class="col-1 pt-5 pl-0">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#skillModal">
+                      Add Skill
+                    </button>
+                </div>
+                <div class="col-1 pt-5 pl-0">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#titleModal">
+                      Add Title
+                    </button>
+                </div>      
+            </div>
+            
+            <div class="row">
+                <div class="col-3">
+                    <!-- FriendRequest -->
+                    <div id="friend-request">
+                        <h2 class="font-weight-normal">FRIEND REQUESTS</h2>           
+                        <ul class="list-group list-group-horizontal-sm">
+                            <li class="list-group-item" th:each="req : ${requests}" >
+                                <img th:src="@{/gifs/{id}/content(id=${req.getId()})}" class="card-img-top" alt="Card image cap" height="100" width="70" >
+                                <span class="font-weight-bold" th:text="${req.name}"></span>
+                                <span class="font-weight-bold" th:text="${req.title}"></span>
+                                <form th:action="@{/accept}" method="POST">
+                                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-success btn-sm">Accept</button>                      
+                                </form>
+                                <form th:action="@{/decline}" method="POST">
+                                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-danger btn-sm">Decline</button>   
+                                </form> 
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+           <div class="row">
+                <div class="col-3">
+                            <h2 class="font-weight-normal">CONNECTIONS</h2>
+                            <ul class="list-group list-group-horizontal-sm" >
+                                <li class="list-group-item" th:each="connection : ${connections}">
+                                    <img th:src="@{/gifs/{id}/content(id=${connection.getId()})}" class="card-img-top" alt="Card image cap" height="100" width="70" >
+                                    <span class="font-weight-bold" th:text="${connection.name}"></span>
+                                    <span class="font-weight-bold" th:text="${connection.title}"></span>
+                                    <form th:action="@{/remove}" method="POST">
+                                        <button type="submit" th:value="${connection.username}" name="username" class="btn btn-danger btn-sm">Remove</button>   
+                                    </form>                                 
+                                </li>           
+                            </ul>                
+                </div>
+            </div>
+            
+            <div class="row">
+                    <div class="col">
+                    <!-- MODAL -->
+                    <!-- The Modal -->
+                    <div class="modal" id="pictureModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">Add Picture</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <form th:action="@{/picture}" method="POST" enctype="multipart/form-data">
+                                <input type="file" name="file" />
+                                <input type="submit" value="Send"/>
+                            </form>
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>  
+                    <!-- MODAL END -->
+                </div>
+                   <div class="col">
+                    <!-- The Modal -->
+                    <div class="modal" id="skillModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">Add Skill</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <form th:action="@{/skill}" method="POST">
+                                <p><input type="text" name="name"></input></p>
+                                <input type="submit" value="Add"></input>
+                            </form>
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>  
+                    <!-- MODAL2 END -->
+                </div>
+                <div class="col">
+                    <!-- The Modal -->
+                    <div class="modal" id="titleModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">Add Title</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <form th:action="@{/title}" method="POST">
+                                <p><input type="text" name="title"></input></p>
+                                <input type="submit" value="Add"></input>
+                            </form> 
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>  
+                    <!-- MODAL3 END -->
+                </div>
+            
+            </div>    
         </div>
-    
-    
-    <!-- FriendRequest -->
-    <div id="friend-request">
-        <h2>FRIEND REQUESTS</h2>           
-        <ul>
-            <li th:each="req : ${requests}">
-                <span th:text="${req.name}"></span>
-                <span th:text="${req.title}"></span>
-                <form th:action="@{/accept}" method="POST">
-                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-success btn-sm">Accept</button>                      
-                </form>
-                <form th:action="@{/decline}" method="POST">
-                    <button type="submit" th:value="${req.username}" name="username" class="btn btn-danger btn-sm">Decline</button>   
-                </form> 
-            </li>
-        </ul>
-    </div>
-    
-    <div>
-        <h2>CONNECTIONS</h2>
-        <ul th:each="connection : ${connections}">
-            <li th:text="${connection.name}"></li>
-            <li th:text="${connection.title}"></li>
-            <form th:action="@{/remove}" method="POST">
-                <button type="submit" th:value="${connection.username}" name="username" class="btn btn-danger btn-sm">Remove</button>   
-            </form> 
-        </ul>
-    </div>
         
-                      
-    <!-- USERCARD-->
-    <div>
-        <h2 >MY PROFILE</h2>
-        <div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>    
-    </div>
+        
+      
+
+
+
         
 
-    <!-- ADD PICTURE-->
-    <div>
-        <form th:action="@{/picture}" method="POST" enctype="multipart/form-data">
-            <h2>Choose a profile picture</h2>
-            <input type="file" name="file" />
-            <input type="submit" value="Send!"/>
-        </form>
-    </div>
-
-<!-- SKILLS-->
-<!-- korosta taidoista top kolme-->      
-    <div>
-        <h2 >SKILLS</h2>  
-        <ul>
-           <li th:each="skill : ${skills}">
-                   <span th:text="${skill.name}">Skills</span> <span th:text="${skill.likes}">Likes</span> 
-           </li>
-        </ul>
-        <br>   
-    </div>
-
- 
-
+    
    
-    <div>
-        <form th:action="@{/skill}" method="POST">
-            <p>Add Skill: <input type="text" name="name"></input></p>
-            <input type="submit" value="Add"></input>
-        </form>
-    </div>
-
-    <!-- TITLE-->
-    <div>
-        <h2 >Title</h2>  
-        <form th:action="@{/title}" method="POST">
-            <p>Add Title <input type="text" name="title"></input></p>
-            <input type="submit" value="Add"></input>
-        </form>                 
-    </div>
-    
-    <br>
-    <br>
-        
 
 
                                     

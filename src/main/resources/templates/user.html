@@ -13,14 +13,19 @@
 
 <div th:replace="fragments/layout :: navbar"></div>
 
-    <div>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+
+<div class="d-inline-block">
         <h2 th:text="${username}">MY PROFILE</h2>
         <div th:replace="fragments/layout :: userCard(name=${username},title=${title},picture=${picture})"></div>    
     </div>
-
+</div>
+        <div class="col-3">
     <!-- SKILLS-->
 <!-- korosta taidoista top kolme-->      
-    <div>
+    <div class="d-inline-block">
         <h2 >SKILLS</h2>  
         <ul>
            <li th:each="skill : ${topskills}">
@@ -39,6 +44,11 @@
         <br>   
     </div>
 
+    </div>
+
+        </div>
+        </div>
+    </div>
 
 </body>
 </html>

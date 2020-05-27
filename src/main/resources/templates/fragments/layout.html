@@ -3,7 +3,11 @@
     <head lang="en">
         <meta charset="UTF-8"/>
         <title>Layout</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </head>
     <body>
 
@@ -17,8 +21,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/users">Users</a>
@@ -28,9 +32,13 @@
                     </li>
                 </ul>
                 <form th:action="@{/search}" method="POST" class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" name=search type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" name=name type="search" placeholder="Search" aria-label="Search">
                     <button type="submit" class="btn btn-outline-success my-2 my-sm-0" >Search</button>
+                    <a href="/logout" class="btn btn-outline-info my-2 my-sm-0 ml-2">
+                      <span class="glyphicon glyphicon-log-out"></span> Log out
+                    </a>
                 </form>
+ 
             </div>
         </nav>
 
@@ -45,22 +53,29 @@
                     <a th:href="@{/users/{username}(username=${username})}" class="btn btn-info">Profile</a>
                 </div>
         </div>
+        
 
-        <div th:fragment="userCards(accounts)">
-            <div th:each="account : ${accounts}" class="card" style="width: 15rem;">
+
+    <div class="col-3">            
+    <div  th:fragment="userCards(accounts)">
+        
+        <div th:each="account : ${accounts}" class="card d-inline-block" style="width: 15rem;">
+                
                 <img th:src="@{/gifs/{id}/content(id=${account.getId()})}" class="card-img-top" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 th:text="${account.username}" class="card-title">Nyymi Nyyminen</h5>
-                        <p th:text="${account.title}" class="card-text">TITTELI</p>
-                        <form th:action="@{/connect}" method="POST">
-                        <a th:href="@{/users/{username}(username=${account.username})}" class="btn btn-info">Profile</a>
-                        <button type="submit" th:value="${account.username}" name="username" class="btn btn-success"> Connect </button>
-                        </form>
-                    </div>
-            </div>
-        </div>   
+                <div class="card-body">
+                    <h5 th:text="${account.name}" class="card-title">Nyymi Nyyminen</h5>
+                    <p th:text="${account.title}" class="card-text">TITTELI</p>
+                    <form th:action="@{/connect}" method="POST">
+                    <a th:href="@{/users/{username}(username=${account.username})}" class="btn btn-info">Profile</a>
+                    <button type="submit" th:value="${account.username}" name="username" class="btn btn-success"> Connect </button>
+                    </form>
+                </div>    
+        </div>
+    </div> 
 
+    </div> 
 
+ 
 
 
     </body>

@@ -32,6 +32,6 @@ public class Post extends AbstractPersistable<Long>{
     @OneToMany(mappedBy = "post") // postauksessa voi olla useita eri kommentteja, kommentti liittyy vain yhteen postaukseen
     private List<Comment> comments = new ArrayList<>();
 
-
+    
     
 }

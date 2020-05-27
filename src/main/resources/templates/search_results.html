@@ -8,8 +8,14 @@
     </head>
     
     <body>
-        
+
         <div th:replace="fragments/layout :: navbar"></div>
+        <h2>SEARCH RESULTS</h2>
+        
+
         <div th:replace="fragments/layout :: userCards(accounts=${accounts})"></div>
+
+        
+
     </body>
 </html>

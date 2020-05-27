@@ -3,59 +3,81 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Users</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     </head>
     
     <body>
-        <div>
-          <a href="/logout">LOGOUT</a>  
-        </div>
-        
+
+        <!-- NAVBAR-->
         <div th:replace="fragments/layout :: navbar"></div>
         
-        <!-- MESSAGE-->
+        
+    <!-- POST TEXTBOX -->
+    <div class="container mt-3">
         <h2>POST HERE</h2>
         <div>
             <form th:action="@{/posts}" method="POST">
                 <textarea type="text" rows="4" cols="50" name="message"></textarea>
                 <button type="submit" class="btn btn-success"> Submit </button>
             </form>    
-        </div>
-        
+        </div>            
+    </div>
+    
+    
 
         
-        
-        <div>
-            <h2>All posts</h2>
-            <ul>
-                <li th:each="post: ${posts}">      
-                    <span th:text="${post.getAccount().getUsername()}">CREATED BY</span>
-                    <span th:text="${post.text}">POST TEXT</span>
-                    <span th:text="${post.postDate}">POST TIME</span>
-                    <span th:text="${post.getLikes().size()}">POST LIKE COUNT</span>
-                    <form th:action="@{/postLikes}" method="POST">
-                    <button  name="id" type="submit" th:value="${post.id}">LIKE!</button>
-                    </form>
-                    <br>
-                    <!-- COMMENT-->
-                    <p>COMMENT HERE</p>
-                    <div>
-                        <form th:action="@{/comments}" method="POST">
-                            <textarea type="text" rows="2" cols="10" th:name="commentText"></textarea>
-                            <button type="submit" th:value="${post.id}" name="postId" class="btn btn-success"> Submit </button>
-                        </form>    
-                    </div>
-                    <li th:each="comment: ${comments}">
-                        <p th:text="${comment.text}"></p>
-                    </li>
+    <!-- POST-->    
+    <div class="container mt-3" th:each="post: ${posts}">
+        <div class="media border border-dark p-3 bg-info text-white">
+          <img th:src="@{/gifs/{id}/content(id=${post.getAccount().getId()})}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+          <div class="media-body">
+            <h4 th:text="${post.getAccount().getUsername()}" >John Doe </h4>
+            <p th:text="${post.text}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <small><i th:text="'Posted on ' +${post.postDate}">Posted on February 19, 2016</i></small>
+            <form class='d-inline-block' th:action="@{/postLikes}" method="POST">
+                <button  name="id" type="submit" th:value="${post.id}"><i class="far fa-thumbs-up"></i> LIKE</button>
+            </form>
+            <i th:text="${post.getLikes().size()}" class="font-weight-bold d-inline-block">LIKES</i>
+          </div>
+        </div>
+           <form th:action="@{/comments}" method="POST">
+                <textarea type="text" rows="3" cols="70" th:name="commentText" placeholder="Comment here.."></textarea>
+                <button type="submit" th:value="${post.id}" name="postId" class="btn btn-success"> Submit </button>
+            </form> 
+        <div class="container">
+            <a th:href="'#data' + ${post.id}" class="btn btn-primary" data-toggle="collapse">See comments</a>
+            <div th:id="'data' + ${post.id}" class="collapse">
+                    <!-- COMMENT TEMPLATE-->
+                <div class="container mt-3">
+                  <div class="media">
                     
-                </li>
-                
-            </ul>
-
+                    <div class="media-body">
+                        <p th:each="c, iterStat : ${post.getComments()}"  th:if="${iterStat.index >= iterStat.size-11}">          
+                                <img th:src="@{/gifs/{id}/content(id=${c.getAccount().getId()})}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                                <span th:text="${c.text}"></span>
+                            </p>
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
+    </div>
+    
+
         
+
+        
+        
+
+        
+        
+
+
 
     </body>
 </html>

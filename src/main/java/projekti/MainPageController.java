@@ -52,18 +52,27 @@ public class MainPageController {
         String username = user.getUsername();
         return accountRepository.findByUsername(username);
     }
+    
+
+   
+    @PostMapping("/search")
+    public String search(Model model, @RequestParam String name) {
+        model.addAttribute("accounts", accountRepository.findByNameIgnoreCaseContaining(name));
+        return "/search_results";
+    }
+    
 
     
     @PostMapping("/comments")
     public String addComment(@RequestParam String commentText,@RequestParam Long postId) {
-
         Account account = currentAccount();
         Post post = postRepository.getOne(postId);
         Comment comment = new Comment();
         comment.setText(commentText);
         comment.setAccount(account);
         comment.setPost(post);
-
+        
+        
         commentRepository.save(comment);
 
         return "redirect:/posts";
@@ -87,14 +96,13 @@ public class MainPageController {
     
     @GetMapping("/posts")
     public String post(Model model) {
-        Account account = currentAccount();
+         Account account = currentAccount();
          Pageable postPageable = PageRequest.of(0, 25, Sort.by("postDate").descending());
-         Pageable commentPageable = PageRequest.of(0, 25, Sort.by("commentDate").descending());
+         Pageable commentPageable = PageRequest.of(0, 10, Sort.by("commentDate").descending());
         
          model.addAttribute("posts", postRepository.findAll(postPageable));
-         model.addAttribute("comments", commentRepository.findAll(commentPageable));
          model.addAttribute("username", account.getUsername());
-
+        
         return "/posts";
     }
 
@@ -190,16 +198,7 @@ public class MainPageController {
         return "redirect:/users/" + account.getUsername();
     }
 
-    @PostMapping("/search")
-    public String search(@RequestParam String search) {
-        Account myAccount = currentAccount();
 
-        //Toteuta joku haku, jonka perusteella näytetään tulokset. Ohjaa vaikka uuteen resurssiin
-        //Account otherAccount = accountRepository.findByUsername(username);
-        //accountRepository.save(myAccount);
-        //accountRepository.save(otherAccount);
-        return "redirect:/";
-    }
 
     @PostMapping("/accept")
     public String accept(@RequestParam String username) {

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Data
@@ -49,6 +50,7 @@ public class Account extends AbstractPersistable<Long>{
     
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] profilePicture;
 
 }

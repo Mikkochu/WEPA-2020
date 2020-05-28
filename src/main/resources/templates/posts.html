@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8"/>
-        <title>Users</title>
+        <title>Posts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -34,10 +34,10 @@
     <!-- POST-->    
     <div class="container mt-3" th:each="post: ${posts}">
         <div class="media border border-dark p-3 bg-info text-white">
-          <img th:src="@{/gifs/{id}/content(id=${post.getAccount().getId()})}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+          <img th:src="@{/gifs/{id}/content(id=${post.getAccount().getId()})}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
           <div class="media-body">
-            <h4 th:text="${post.getAccount().getUsername()}" >John Doe </h4>
-            <p th:text="${post.text}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h4 th:text="${post.getAccount().getUsername()}" ></h4>
+            <p th:text="${post.text}"></p>
             <small><i th:text="'Posted on ' +${post.postDate}">Posted on February 19, 2016</i></small>
             <form class='d-inline-block' th:action="@{/postLikes}" method="POST">
                 <button  name="id" type="submit" th:value="${post.id}"><i class="far fa-thumbs-up"></i> LIKE</button>
@@ -58,7 +58,7 @@
                     
                     <div class="media-body">
                         <p th:each="c, iterStat : ${post.getComments()}"  th:if="${iterStat.index >= iterStat.size-11}">          
-                                <img th:src="@{/gifs/{id}/content(id=${c.getAccount().getId()})}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                                <img th:src="@{/gifs/{id}/content(id=${c.getAccount().getId()})}"  class="mr-3 mt-3 rounded-circle" style="width:60px;">
                                 <span th:text="${c.text}"></span>
                             </p>
                     </div>
@@ -69,14 +69,7 @@
     </div>
     
 
-        
-
-        
-        
-
-        
-        
-
+       
 
 
     </body>

@@ -53,16 +53,14 @@ public class MainPageController {
         return accountRepository.findByUsername(username);
     }
     
-
    
     @PostMapping("/search")
     public String search(Model model, @RequestParam String name) {
         model.addAttribute("accounts", accountRepository.findByNameIgnoreCaseContaining(name));
-        return "/search_results";
+        return "redirect:/search_results";
     }
     
 
-    
     @PostMapping("/comments")
     public String addComment(@RequestParam String commentText,@RequestParam Long postId) {
         Account account = currentAccount();
@@ -71,7 +69,6 @@ public class MainPageController {
         comment.setText(commentText);
         comment.setAccount(account);
         comment.setPost(post);
-        
         
         commentRepository.save(comment);
 
@@ -100,14 +97,14 @@ public class MainPageController {
          Pageable postPageable = PageRequest.of(0, 25, Sort.by("postDate").descending());
          Pageable commentPageable = PageRequest.of(0, 10, Sort.by("commentDate").descending());
         
-         model.addAttribute("posts", postRepository.findAll(postPageable));
+         model.addAttribute("posts", postRepository.findAll(postPageable)); // MUUTA MINUT
          model.addAttribute("username", account.getUsername());
         
-        return "/posts";
+        return "posts";
     }
 
     @PostMapping("/posts")
-    public String addPost(@RequestParam String message) {  // 
+    public String addPost(@RequestParam String message) {  
         Account account = currentAccount();
 
         Post post = new Post();

@@ -57,7 +57,7 @@ public class MainPageController {
     @PostMapping("/search")
     public String search(Model model, @RequestParam String name) {
         model.addAttribute("accounts", accountRepository.findByNameIgnoreCaseContaining(name));
-        return "redirect:/search_results";
+        return "search_results";
     }
     
 

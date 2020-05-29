@@ -66,7 +66,7 @@
                         <h2 class="font-weight-normal">FRIEND REQUESTS</h2>           
                         <ul class="list-group list-group-horizontal-sm">
                             <li class="list-group-item" th:each="req : ${requests}" >
-                                <img th:src="@{/gifs/{id}/content(id=${req.getId()})}" class="card-img-top" alt="Card image cap" height="100" width="70" >
+                                <img th:src="@{/gifs/{id}/content(id=${req.getId()})}" class="card-img-top" alt="NO PROFILE IMAGE" height="100" width="70" >
                                 <span class="font-weight-bold" th:text="${req.name}"></span>
                                 <span class="font-weight-bold" th:text="${req.title}"></span>
                                 <form th:action="@{/accept}" method="POST">
@@ -85,7 +85,7 @@
                             <h2 class="font-weight-normal">CONNECTIONS</h2>
                             <ul class="list-group list-group-horizontal-sm" >
                                 <li class="list-group-item" th:each="connection : ${connections}">
-                                    <img th:src="@{/gifs/{id}/content(id=${connection.getId()})}" class="card-img-top" alt="Card image cap" height="100" width="70" >
+                                    <img th:src="@{/gifs/{id}/content(id=${connection.getId()})}" class="card-img-top" alt="NO PROFILE IMAGE" height="100" width="70" >
                                     <span class="font-weight-bold" th:text="${connection.name}"></span>
                                     <span class="font-weight-bold" th:text="${connection.title}"></span>
                                     <form th:action="@{/remove}" method="POST">

@@ -100,6 +100,7 @@ public class MainPageController {
          Pageable postPageable = PageRequest.of(0, 25, Sort.by("postDate").descending());
          
          List<Account> myConnections = account.getConnections();
+         myConnections.add(account);
          
          model.addAttribute("posts", postRepository.findByAccountIn(myConnections, postPageable)); 
          model.addAttribute("username", account.getUsername());

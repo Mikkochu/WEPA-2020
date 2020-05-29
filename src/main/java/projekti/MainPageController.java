@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -53,6 +54,8 @@ public class MainPageController {
         return accountRepository.findByUsername(username);
     }
     
+
+    
    
     @PostMapping("/search")
     public String search(Model model, @RequestParam String name) {
@@ -95,9 +98,10 @@ public class MainPageController {
     public String post(Model model) {
          Account account = currentAccount();
          Pageable postPageable = PageRequest.of(0, 25, Sort.by("postDate").descending());
-         Pageable commentPageable = PageRequest.of(0, 10, Sort.by("commentDate").descending());
-        
-         model.addAttribute("posts", postRepository.findAll(postPageable)); // MUUTA MINUT
+         
+         List<Account> myConnections = account.getConnections();
+         
+         model.addAttribute("posts", postRepository.findByAccountIn(myConnections, postPageable)); 
          model.addAttribute("username", account.getUsername());
         
         return "posts";
@@ -311,6 +315,15 @@ public class MainPageController {
     public byte[] content(@PathVariable Long id) {
         return accountRepository.getOne(id).getProfilePicture();
 
+    }
+    
+    @PostMapping("/removePic")
+    public String removePicture() {
+        Account account = currentAccount();
+        account.setProfilePicture(null);
+        accountRepository.save(account);
+        return "redirect:/";
+        
     }
 
 }

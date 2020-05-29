@@ -46,7 +46,7 @@
 
         <!-- USER CARD -->
         <div th:fragment="userCard(name)" class="card" style="width: 15rem;">
-            <img th:src="@{/gifs/{id}/content(id=${picture})}" class="card-img-top" alt="Card image cap">
+            <img th:src="@{/gifs/{id}/content(id=${picture})}" class="card-img-top" alt="NO PROFILE IMAGE" height="120" width="65">
                 <div class="card-body">
                     <h5 th:text="${name}" class="card-title">Nyymi Nyyminen</h5>
                     <p th:text="${title}" class="card-text">TITTELI</p>
@@ -61,7 +61,7 @@
         
         <div th:each="account : ${accounts}" class="card d-inline-block" style="width: 15rem;">
                 
-                <img th:src="@{/gifs/{id}/content(id=${account.getId()})}" class="card-img-top" alt="Card image cap">
+                <img th:src="@{/gifs/{id}/content(id=${account.getId()})}" class="card-img-top" alt="NO PROFILE IMAGE" height="120" width="45">
                 <div class="card-body">
                     <h5 th:text="${account.name}" class="card-title">Nyymi Nyyminen</h5>
                     <p th:text="${account.title}" class="card-text">TITTELI</p>

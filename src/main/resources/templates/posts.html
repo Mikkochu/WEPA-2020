@@ -57,7 +57,7 @@
                   <div class="media">
                     
                     <div class="media-body">
-                        <p th:each="c, iterStat : ${post.getComments()}"  th:if="${iterStat.index >= iterStat.size-11}">          
+                        <p th:each="c, iterStat : ${post.getComments()}"  th:if="${iterStat.index >= iterStat.size-10}">          
                                 <img th:src="@{/gifs/{id}/content(id=${c.getAccount().getId()})}"  class="mr-3 mt-3 rounded-circle" style="width:60px;">
                                 <span th:text="${c.text}"></span>
                             </p>

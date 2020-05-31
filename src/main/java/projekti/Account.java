@@ -48,8 +48,8 @@ public class Account extends AbstractPersistable<Long>{
     private List<Account> connections = new ArrayList<>();
  
     
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] profilePicture;
     
